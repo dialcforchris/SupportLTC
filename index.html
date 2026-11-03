@@ -131,7 +131,8 @@ footer .wrap { padding-block: 20px 28px; }
 <header class="band">
   <div class="wrap">
     <div class="brand">Lower Thames Crossing<span>AR</span></div>
-    <a href="#terms" id="nav-link">Terms</a>
+    <a href="#Privacy" id="nav-link">Privacy</a>
+    <!-- <a href="#privacy" id="nav-link">Privacy</a> -->
   </div>
 </header>
 
@@ -263,12 +264,42 @@ footer .wrap { padding-block: 20px 28px; }
 
   <h2>9. Contact us</h2>
   <p>If you have any questions about these Terms, please contact us at: builds@odie.solutions.</p>
+</main>
+<main class="wrap privacy" id="privacy-view" hidden>
+ 
+<h1>Privacy Policy</h1>
+
+<h2>1. Information We Do Not Collect</h2>
+
+<p>We respect your privacy. [Insert App Name] does not collect, store, share, or process any personal data, user information, device identifiers, or analytics data.
+• No Personal Information: We do not collect names, email addresses, phone numbers, or account credentials.
+• No Usage or Analytics Data: We do not track how you use the app, nor do we use third-party analytics SDKs (such as Firebase, Google Analytics, or Facebook SDK).
+• No Location Data: We do not access or collect your device's GPS or location information.
+• No Local Data Transmission: Any data or state generated while using the app stays strictly on your device and is never transmitted to us or any third party.
+</p>
+<h2> Third-Party Services</h2>
+
+<p>Our app does not integrate with any third-party services, advertising networks, or external plugins that collect data on our behalf.
+</p>  
+<h2>3. Children’s Privacy</h2>
+
+<p>Because we collect no data from any user—including children—our app complies fully with children's privacy protections (such as COPPA).
+</p>
+<h2>4. Changes to This Privacy Policy</h2>
+
+<p>We may update this Privacy Policy from time to time. If we make changes, we will update the "Effective Date" at the top of this policy.</p>
+
+<h2>5. Contact Us</h2>
+
+<p>If you have any questions or concerns about this Privacy Policy, you can reach us at:
+• Email: builds@odie.solutions
+</p>
 
   <a class="back" href="#support">&larr; Back to support</a>
 </main>
 
 <footer>
-  <div class="wrap">Lower Thames Crossing AR support &middot; <a href="#terms">Terms and Conditions</a></div>
+  <div class="wrap">Lower Thames Crossing AR support &middot; <a href="#support">Support</a></div>
 </footer>
 
 <script>
@@ -346,13 +377,15 @@ footer .wrap { padding-block: 20px 28px; }
     copyText("To: " + TO + "\nSubject: " + m.subject + "\n\n" + m.body, "Message copied. Paste it into an email to " + TO + ".");
   });
   var supportView = document.getElementById("support-view");
-  var termsView = document.getElementById("terms-view");
+  // var termsView = document.getElementById("terms-view");
+  var privacyView = document.getElementById("privacy-view");
   function route() {
-    var showTerms = location.hash === "#terms";
-    termsView.hidden = !showTerms;
-    supportView.hidden = showTerms;
-    document.getElementById("nav-link").textContent = showTerms ? "Support" : "Terms";
-    document.getElementById("nav-link").setAttribute("href", showTerms ? "#support" : "#terms");
+    // var showTerms = location.hash === "#terms";
+    var showPrivacy = location.hash === "#privacy";
+    // termsView.hidden = !showTerms;
+    supportView.hidden = showPrivacy;
+    privacyView.hidden = !showPrivacy;
+     document.getElementById("nav-link").setAttribute("href", showPrivacy ? "#support" : "#privacy");
     window.scrollTo(0, 0);
   }
   window.addEventListener("hashchange", route);

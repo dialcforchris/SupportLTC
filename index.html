@@ -181,11 +181,7 @@ footer .wrap { padding-block: 20px 28px; }
           <label for="device">Device
             <select id="device" name="device" required>
               <option value="">Choose one</option>
-              <option>iPhone</option>
               <option>iPad</option>
-              <option>Android phone</option>
-              <option>Android tablet</option>
-              <option>Other</option>
             </select>
           </label>
           <label for="topic">What do you need help with?
@@ -199,9 +195,9 @@ footer .wrap { padding-block: 20px 28px; }
             </select>
           </label>
         </div>
-        <label for="version">App version <small>(optional, shown in the app settings)</small>
-          <input id="version" name="version" type="text" inputmode="text" placeholder="e.g. 1.2.0">
-        </label>
+        <!-- <label for="version">App version <small>(optional, shown in the app settings)</small> -->
+          <!-- <input id="version" name="version" type="text" inputmode="text" placeholder="e.g. 1.2.0"> -->
+        <!-- </label> -->
         <label for="message">Describe the problem
           <textarea id="message" name="message" required placeholder="What were you doing, and what did you expect to see?"></textarea>
         </label>
@@ -290,7 +286,7 @@ footer .wrap { padding-block: 20px 28px; }
       "Reply email: " + val("email"),
       "Device: " + val("device"),
       "Topic: " + val("topic"),
-      "App version: " + (val("version") || "not given"),
+      // "App version: " + (val("version") || "not given"),
       "",
       val("message")
     ];

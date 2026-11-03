@@ -1,0 +1,367 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Lower Thames Crossing AR</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: motorway-sign header band, a river cross-section hero, then two columns (what the app does / support form) that stack on phones. */
+:root {
+  --bg: #f1f4f3;
+  --surface: #ffffff;
+  --ink: #12202b;
+  --muted: #4d5f6b;
+  --line: #cfd9d8;
+  --sign: #002E5F;
+  --sign-ink: #ffffff;
+  --water: #5aa6c9;
+  --earth: #d9d3c0;
+  --road: #2b3138;
+  --accent: #f2c200;
+  --accent-ink: #14110a;
+  --ok: #1f7a46;
+  --font-display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1419; --surface: #16212a; --ink: #e8eef2; --muted: #9fb0bb; --line: #2b3a45;
+    --sign: #1c63bd; --sign-ink: #ffffff; --water: #2c6e8f; --earth: #3a392f; --road: #aab6be;
+    --accent: #f2c200; --accent-ink: #14110a; --ok: #5fcf8f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1419; --surface: #16212a; --ink: #e8eef2; --muted: #9fb0bb; --line: #2b3a45;
+  --sign: #1c63bd; --sign-ink: #ffffff; --water: #2c6e8f; --earth: #3a392f; --road: #aab6be;
+  --accent: #f2c200; --accent-ink: #14110a; --ok: #5fcf8f; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.55;
+}
+.wrap {
+  max-width: 1040px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Sign band */
+.band { background: var(--sign); color: var(--sign-ink); border-bottom: 4px solid var(--accent); }
+.band .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+.brand { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; letter-spacing: .02em; text-transform: uppercase; line-height: 1; }
+.brand span { background: var(--sign-ink); color: var(--sign); padding: 2px 8px; margin-left: 8px; border-radius: 3px; }
+.band a { color: var(--sign-ink); font-family: var(--font-mono); font-size: .85rem; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px; }
+.band a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* Hero */
+.hero { padding-block: 40px 28px; display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+.eyebrow { font-family: var(--font-mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.6rem, 8vw, 4.6rem); line-height: .98; margin: 0 0 16px; text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; }
+.lede { max-width: 60ch; color: var(--muted); font-size: 1.12rem; margin: 0; }
+.section-fig { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.section-fig .sky { fill: var(--surface); }
+.section-fig .earth { fill: var(--earth); }
+.section-fig .water { fill: var(--water); }
+.section-fig .tube { fill: none; stroke: var(--road); stroke-width: 3; }
+.section-fig .lane { stroke: var(--road); stroke-width: 2; stroke-dasharray: 10 8; }
+.section-fig .ar { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: square; }
+.section-fig .arfill { fill: var(--accent); }
+.section-fig text { fill: var(--ink); font-family: var(--font-mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+.section-fig .dim { fill: var(--muted); }
+
+/* Content */
+.cols { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 720px; padding-block: 12px 56px; }
+h2 { font-family: var(--font-display); font-weight: 700; font-size: 2rem; line-height: 1.05; text-transform: uppercase; margin: 0 0 14px; letter-spacing: .01em; }
+.about ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+.about li { padding-left: 16px; border-left: 4px solid var(--sign); }
+.about strong { display: block; font-family: var(--font-display); font-size: 1.25rem; text-transform: uppercase; letter-spacing: .02em; }
+.about span { color: var(--muted); }
+
+/* Support form */
+.support { background: var(--surface); border: 1px solid var(--line); border-top: 6px solid var(--sign); border-radius: 6px; padding: 22px; min-width: 0; }
+.support p.note { color: var(--muted); margin: 0 0 18px; }
+form { display: grid; gap: 14px; }
+.row { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 560px) { .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+label { display: grid; gap: 6px; font-weight: 600; font-size: .95rem; min-width: 0; }
+label small { font-weight: 400; color: var(--muted); }
+input, select, textarea {
+  font: inherit; color: var(--ink); background: var(--bg);
+  border: 1.5px solid var(--line); border-radius: 4px; padding: 10px 12px; width: 100%; min-width: 0;
+}
+textarea { min-height: 130px; resize: vertical; }
+input:focus, select:focus, textarea:focus { border-color: var(--sign); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+button {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: .04em; text-transform: uppercase;
+  border-radius: 4px; padding: 11px 22px; cursor: pointer; border: 2px solid var(--sign);
+}
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button.primary:hover { filter: brightness(.95); }
+button.ghost { background: transparent; color: var(--sign); }
+:root[data-theme="dark"] button.ghost { color: var(--ink); border-color: var(--line); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) button.ghost { color: var(--ink); border-color: var(--line); } }
+.status { min-height: 1.4em; margin: 0; font-size: .95rem; color: var(--muted); }
+.status.error { color: #b3261e; }
+:root[data-theme="dark"] .status.error { color: #ff8a80; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .status.error { color: #ff8a80; } }
+.fallback { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.fallback p { margin: 0 0 10px; color: var(--muted); font-size: .95rem; }
+.addr { display: inline-flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.addr code { font-family: var(--font-mono); font-size: .95rem; background: var(--bg); border: 1px solid var(--line); padding: 6px 10px; border-radius: 4px; user-select: all; overflow-wrap: anywhere; }
+.addr button { font-size: .95rem; padding: 6px 14px; }
+.terms { max-width: 720px; padding-block: 36px 56px; }
+.terms h1 { font-size: clamp(2rem, 6vw, 3rem); }
+.terms h2 { font-size: 1.35rem; margin: 26px 0 8px; }
+.terms p, .terms li { color: var(--ink); }
+.terms ul { padding-left: 1.2rem; margin: 8px 0; }
+.terms li { margin-bottom: 6px; }
+.terms .updated { font-family: var(--font-mono); font-size: .85rem; color: var(--muted); margin: 0 0 18px; }
+.terms .todo { background: var(--accent); color: var(--accent-ink); padding: 0 4px; border-radius: 2px; }
+.back { display: inline-block; margin-top: 8px; color: var(--sign); font-weight: 600; }
+:root[data-theme="dark"] .back { color: var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .back { color: var(--ink); } }
+footer a { color: var(--ink); }
+footer { border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+footer .wrap { padding-block: 20px 28px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="brand">Lower Thames Crossing<span>AR</span></div>
+    <a href="#terms" id="nav-link">Terms</a>
+  </div>
+</header>
+
+<main class="wrap" id="support-view">
+  <section class="hero" aria-labelledby="top">
+    <div>
+      <p class="eyebrow">App support</p>
+      <h1 id="top">Need help with the app?</h1>
+      <p class="lede">Send us a support request for Lower Thames Crossing AR. Tell us which device you use and what went wrong, and we will reply by email.</p>
+    </div>
+
+    <!-- <svg class="section-fig" viewBox="0 0 720 250" role="img" aria-label="Cross-section of the Thames estuary showing a road tunnel beneath the river between Kent on the left and Essex on the right, with an augmented reality viewfinder above the water.">
+      <rect class="sky" x="0" y="0" width="720" height="250"/>-->
+      <!-- earth -->
+      <!--<path class="earth" d="M0 110 H210 L250 150 H470 L510 110 H720 V250 H0 Z"/> -->
+      <!-- river -->
+      <!--<path class="water" d="M210 110 H510 L470 150 H250 Z"/> -->
+      <!-- tunnel -->
+      <!-- <rect class="tube" x="190" y="176" width="340" height="46" rx="23"/>
+      <line class="lane" x1="212" y1="199" x2="508" y2="199"/> -->
+      <!-- AR viewfinder -->
+      <!-- <path class="ar" d="M286 36 h-24 v24 M434 36 h24 v24 M286 94 h-24 v-24 M434 94 h24 v-24"/>
+      <circle class="arfill" cx="360" cy="65" r="6"/>
+      <text x="360" y="22" text-anchor="middle">Point &middot; scan &middot; see</text>
+      <text x="24" y="98">Kent</text>
+      <text x="696" y="98" text-anchor="end">Essex</text>
+      <text x="360" y="136" text-anchor="middle">River Thames</text>
+      <text class="dim" x="360" y="242" text-anchor="middle">Schematic section, not to scale</text>
+    </svg>  -->
+  </section>
+
+  <div class="cols">
+    <section class="support" id="support" aria-labelledby="support-h">
+      <h2 id="support-h">Request app support</h2>
+      <p class="note">Tell us what happened and which device you use. Your request is written as an email to the support inbox.</p>
+
+      <form id="support-form" novalidate>
+        <div class="row">
+          <label for="name">Your name
+            <input id="name" name="name" type="text" autocomplete="name" required>
+          </label>
+          <label for="email">Your email
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </label>
+        </div>
+        <div class="row">
+          <label for="device">Device
+            <select id="device" name="device" required>
+              <option value="">Choose one</option>
+              <option>iPhone</option>
+              <option>iPad</option>
+              <option>Android phone</option>
+              <option>Android tablet</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label for="topic">What do you need help with?
+            <select id="topic" name="topic" required>
+              <option value="">Choose one</option>
+              <option>The app will not open</option>
+              <option>Camera or AR view not working</option>
+              <option>The route is in the wrong place</option>
+              <option>Installing or updating</option>
+              <option>Something else</option>
+            </select>
+          </label>
+        </div>
+        <label for="version">App version <small>(optional, shown in the app settings)</small>
+          <input id="version" name="version" type="text" inputmode="text" placeholder="e.g. 1.2.0">
+        </label>
+        <label for="message">Describe the problem
+          <textarea id="message" name="message" required placeholder="What were you doing, and what did you expect to see?"></textarea>
+        </label>
+
+        <div class="actions">
+          <button class="primary" type="submit">Email support</button>
+        </div>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="fallback">
+        <p>If your email app does not open, copy the message and send it to this address.</p>
+        <div class="addr">
+          <code id="addr">builds@odie.solutions</code>
+          <button class="ghost" type="button" id="copy-addr">Copy address</button>
+          <button class="ghost" type="button" id="copy-msg">Copy message</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<main class="wrap terms" id="terms-view" hidden>
+  <p class="eyebrow">Legal</p>
+  <h1>Terms and Conditions / End User License Agreement (EULA)</h1>
+  <p class="updated">Last updated: 3 November 2026</p>
+
+  <h2>1. Introduction</h2>
+  <p>These Terms and Conditions ("Terms") govern your use of the mobile application Lower Thames Crossing AR ("App"), provided by <span class="todo">[COMPANY/DEVELOPER NAME]</span> ("Company", "we", "our", or "us").</p>
+  <p>By downloading, installing, or using the App, you agree to be bound by these Terms. If you do not agree, do not use the App.</p>
+
+  <h2>2. License</h2>
+  <p>Subject to these Terms, the Company grants you a limited, non-exclusive, non-transferable, non-sublicensable license to download, install, and use the App on any Apple-branded device that you own or control, as permitted by the Apple App Store Terms of Service.</p>
+
+  <h2>3. Restrictions</h2>
+  <p>You agree that you will not, and will not permit any third party to:</p>
+  <ul>
+    <li>Reverse engineer, decompile, disassemble, or attempt to derive the source code of the App.</li>
+    <li>Modify, translate, or create derivative works of the App.</li>
+    <li>Use the App for any illegal, unauthorized, or prohibited purpose.</li>
+  </ul>
+
+  <h2>4. Intellectual property</h2>
+  <p>The App and all related trademarks, source code, graphics, and logos are and remain the exclusive property of <span class="todo">[COMPANY/DEVELOPER NAME]</span>.</p>
+
+  <h2>5. Acknowledgement (Apple specific)</h2>
+  <p>You acknowledge and agree that:</p>
+  <ul>
+    <li>These Terms are concluded between you and <span class="todo">[COMPANY/DEVELOPER NAME]</span> only, and not with Apple, Inc. ("Apple").</li>
+    <li>Apple is not responsible for the App or its content.</li>
+    <li>Apple has no obligation whatsoever to furnish any maintenance or support services with respect to the App.</li>
+    <li>In the event of any failure of the App to conform to any applicable warranty, you may notify Apple, and Apple will refund the purchase price for the App (if applicable) to you. To the maximum extent permitted by applicable law, Apple will have no other warranty obligation whatsoever with respect to the App.</li>
+  </ul>
+
+  <h2>6. Limitation of liability</h2>
+  <p>To the fullest extent permitted by applicable law, in no event shall <span class="todo">[COMPANY/DEVELOPER NAME]</span> be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of or inability to use the App.</p>
+
+  <h2>7. Termination</h2>
+  <p>We reserve the right to suspend or terminate your access to the App at our sole discretion, without notice or liability, for conduct that we believe violates these Terms.</p>
+
+  <h2>8. Changes to these Terms</h2>
+  <p>We may update these Terms from time to time. Continued use of the App after any modifications constitutes your acceptance of the new Terms.</p>
+
+  <h2>9. Contact us</h2>
+  <p>If you have any questions about these Terms, please contact us at: builds@odie.solutions.</p>
+
+  <a class="back" href="#support">&larr; Back to support</a>
+</main>
+
+<footer>
+  <div class="wrap">Lower Thames Crossing AR support &middot; <a href="#terms">Terms and Conditions</a></div>
+</footer>
+
+<script>
+(function () {
+  var TO = "builds@odie.solutions";
+  var form = document.getElementById("support-form");
+  var statusEl = document.getElementById("status");
+
+  function val(id) { return document.getElementById(id).value.trim(); }
+
+  function build() {
+    var subject = "AR app support: " + (val("topic") || "request");
+    var lines = [
+      "Name: " + val("name"),
+      "Reply email: " + val("email"),
+      "Device: " + val("device"),
+      "Topic: " + val("topic"),
+      "App version: " + (val("version") || "not given"),
+      "",
+      val("message")
+    ];
+    return { subject: subject, body: lines.join("\n") };
+  }
+
+  function setStatus(text, isError) {
+    statusEl.textContent = text;
+    statusEl.className = "status" + (isError ? " error" : "");
+  }
+
+  function valid() {
+    var ids = ["name", "email", "device", "topic", "message"];
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (!el.value.trim()) { el.focus(); setStatus("Please fill in all required fields.", true); return false; }
+    }
+    var em = document.getElementById("email");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) {
+      em.focus(); setStatus("Enter a valid email address so we can reply.", true); return false;
+    }
+    return true;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!valid()) return;
+    var m = build();
+    var href = "mailto:" + TO + "?subject=" + encodeURIComponent(m.subject) +
+               "&body=" + encodeURIComponent(m.body).replace(/%0A/g, "%0D%0A");
+    setStatus("Opening your email app. If nothing opens, use Copy message below and send it to " + TO + ".", false);
+    window.location.href = href;
+  });
+
+  function copyText(text, okMsg) {
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", "");
+      ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (err) {}
+      document.body.removeChild(ta);
+      setStatus(ok ? okMsg : "Copy did not work. Select the text and copy it by hand.", !ok);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { setStatus(okMsg, false); }, fallback);
+    } else { fallback(); }
+  }
+
+  document.getElementById("copy-addr").addEventListener("click", function () {
+    copyText(TO, "Address copied.");
+  });
+  document.getElementById("copy-msg").addEventListener("click", function () {
+    if (!valid()) return;
+    var m = build();
+    copyText("To: " + TO + "\nSubject: " + m.subject + "\n\n" + m.body, "Message copied. Paste it into an email to " + TO + ".");
+  });
+  var supportView = document.getElementById("support-view");
+  var termsView = document.getElementById("terms-view");
+  function route() {
+    var showTerms = location.hash === "#terms";
+    termsView.hidden = !showTerms;
+    supportView.hidden = showTerms;
+    document.getElementById("nav-link").textContent = showTerms ? "Support" : "Terms";
+    document.getElementById("nav-link").setAttribute("href", showTerms ? "#support" : "#terms");
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+
+</body></html>
